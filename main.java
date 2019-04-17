@@ -4,24 +4,24 @@ import java.io.*;
 public class main{
   static Scanner stdin = new Scanner(System.in);
 
-  public static void printList(ArrayList<String> data, String type){
-    System.out.println("Type: " + type);
-    for(int i=0; i<data.size(); i++)
-      System.out.println("Data: " + data.get(i));
+  public static void printList(ArrayList<String> DataFile, String types){
+    System.out.println("types: " + types);
+    for(int i=0; i<DataFile.size(); i++)
+      System.out.println("DataFile: " + DataFile.get(i));
   }
 
-  public static ArrayList<String> ReadFile(String csvFile){
+  public static ArrayList<String> ReadFile(String CSV_File){
     BufferedReader br = null;
     String line = "";
     String csvSplitBy = ",";
-    ArrayList<String> data = new ArrayList<String>();
+    ArrayList<String> DataFile = new ArrayList<String>();
     try {
-      br = new BufferedReader(new FileReader(csvFile));
-      String type = br.readLine();
-      String format[] = type.split(csvSplitBy);
+      br = new BufferedReader(new FileReader(CSV_File));
+      String types = br.readLine();
+      String format[] = types.split(csvSplitBy);
       System.out.println("FORMATO: " + format.length);
       while ((line = br.readLine()) != null) {
-        data.add(line);
+        DataFile.add(line);
       }
     } catch (FileNotFoundException e) {
       System.out.println("File does not exist!");
@@ -38,18 +38,18 @@ public class main{
         }
       }
     }
-    return data;
+    return DataFile;
   }
 
-  public static String ReadType(String csvFile){
-    String type = "";
+  public static String Readtypes(String CSV_File){
+    String types = "";
     BufferedReader br = null;
     String line = "";
     String csvSplitBy = ",";
-    ArrayList<String> data = new ArrayList<String>();
+    ArrayList<String> DataFile = new ArrayList<String>();
     try {
-      br = new BufferedReader(new FileReader(csvFile));
-      type = br.readLine();
+      br = new BufferedReader(new FileReader(CSV_File));
+      types = br.readLine();
     } catch (FileNotFoundException e) {
       System.out.println("File does not exist!");
       System.exit(0);
@@ -65,15 +65,15 @@ public class main{
         }
       }
     }
-    return type;
+    return types;
   }
 
   public static void main(String[] args) {
-    System.out.print("Ficheiro: ");
-    String csvFile = stdin.next();
-    ArrayList<String> data = new ArrayList<String>();
-    data = ReadFile(csvFile);
-    String type = ReadType(csvFile);
-    printList(data,type);
+    System.out.print("Indique o nome do seu Ficheiro: ");
+    String CSV_File = stdin.next();
+    ArrayList<String> DataFile = new ArrayList<String>();
+    DataFile = ReadFile(CSV_File);
+    String types = Readtypes(CSV_File);
+    printList(DataFile,types);
   }
 }
