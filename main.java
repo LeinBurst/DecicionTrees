@@ -19,7 +19,7 @@ public class main{
       br = new BufferedReader(new FileReader(CSV_File));
       String types = br.readLine();
       String format[] = types.split(csvSplitBy);
-      System.out.println("FORMATO: " + format.length);
+      //System.out.println("FORMATO: " + format.length);
       while ((line = br.readLine()) != null) {
         DataFile.add(line);
       }
@@ -68,12 +68,48 @@ public class main{
     return types;
   }
 
+  public static void Menu(ArrayList<String> DataFile, String types){
+    System.out.println("Menu");
+    System.out.println("1 -> Print Tabela");
+    System.out.println("2 -> Inserir nova Informação");
+    System.out.println("3 -> Mudar de Ficheiro");
+    System.out.println("4 -> Sair");
+    System.out.print("Opção:");
+    int escolha = stdin.nextInt();
+    switch(escolha){
+      case 1:
+        printList(DataFile,types);
+        Menu(DataFile,types);
+        break;
+      case 2:
+        NewInfo(DataFile, types);
+        Menu(DataFile,types);
+        break;
+      case 3:
+        System.out.print("Indique o nome do seu Ficheiro: ");
+        String CSV_File = stdin.next();
+        DataFile = ReadFile(CSV_File);
+        types = Readtypes(CSV_File);
+        Menu(DataFile,types);
+        break;
+      case 4:
+        return;
+      default:
+        System.out.println("Opção Inválida!");
+        Menu(DataFile,types);
+    }
+  }
+
+  public static void NewInfo(ArrayList<String> DataFile, String types){
+
+  }
+
   public static void main(String[] args) {
     System.out.print("Indique o nome do seu Ficheiro: ");
     String CSV_File = stdin.next();
     ArrayList<String> DataFile = new ArrayList<String>();
     DataFile = ReadFile(CSV_File);
     String types = Readtypes(CSV_File);
-    printList(DataFile,types);
+    Menu(DataFile,types);
   }
 }
