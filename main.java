@@ -101,7 +101,24 @@ public class main{
   }
 
   public static void NewInfo(ArrayList<String> DataFile, String types){
-
+    int i,j;
+    String Opcao;
+    for(i = 0; types.charAt(i) != ',';i++){}
+    i++;
+    do{
+      for(j = i;types.charAt(j) != ',';j++){
+        if(j == types.length()-1){
+          System.out.println("É impossível decidir sobre a informação!");
+          return;
+        }
+      }
+      for(;i!=j;i++){
+        System.out.print(types.charAt(i));
+      }
+      System.out.print(':');
+      i++;
+      Opcao = stdin.next();
+    }while(true);
   }
 
   public static void main(String[] args) {
