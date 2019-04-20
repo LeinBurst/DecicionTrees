@@ -99,26 +99,119 @@ public class main{
         Menu(DataFile,types);
     }
   }
+  public static ArrayList<String> ArList(ArrayList<String> OldList){
+    ArrayList<String> NewList = new ArrayList<String>();
+    for(int i = 0;i < OldList.size();i++){
+      NewList.add(OldList.get(i));
+    }
+    return NewList;
+  }
 
-  public static void NewInfo(ArrayList<String> DataFile, String types){
-    int i,j;
-    String Opcao;
-    for(i = 0; types.charAt(i) != ',';i++){}
-    i++;
-    do{
-      for(j = i;types.charAt(j) != ',';j++){
-        if(j == types.length()-1){
-          System.out.println("É impossível decidir sobre a informação!");
-          return;
+  //Dá return a false caso seja um PureSet de modo a parar o ciclo da função insert
+  public static boolean PureSet(ArrayList<String> TheNode){
+    String Play = "";
+    int i,j = 0,x = 0;
+    for(i = 0;true;i++){
+      if(TheNode.get(0).charAt(i) == ',') j = i+1;
+      if(i == TheNode.get(0).length()-1){
+        break;
+      }
+    }
+    for(;j != TheNode.get(0).length();j++){
+      Play = Play.concat(Character.toString(TheNode.get(0).charAt(j)));
+    }
+    for(i = 1;i < TheNode.size();i++){
+      for(j = 0;true;j++){
+        if(TheNode.get(i).charAt(j) == ',') x = j+1;
+        if(j == TheNode.get(i).length()-1){
+          break;
         }
       }
+      for(j = 0;x != TheNode.get(i).length();x++,j++){
+        if(Play.charAt(j) != TheNode.get(i).charAt(x)) return true;
+      }
+    }
+    return false;
+  }
+
+  public static String InsertInfo(ArrayList<String> DataFile,String NewData,String types){
+    ArrayList<String> TheNode = ArList(DataFile);
+    int i,j = 0,x;
+    for(j = 0; NewData.charAt(j) != ',';j++){}
+    while(PureSet(TheNode)){
+      String Play = "";
+      if(j >= NewData.length()-1) return NewData;
+      j++;
+      for(;NewData.charAt(j) != ',';j++){
+        Play = Play.concat(Character.toString(NewData.charAt(j)));
+      }
+      ArrayList<String> temp = ArList(TheNode);
+      TheNode.clear();
+      int counter1 = 0,counter2 = 0;;
+      for(i = 0; i < j; i++){
+        if(NewData.charAt(i) == ',') counter1++;
+      }
+      for(i = 0; i < temp.size();i++){
+        for(x = 0,counter2 = 0;counter2 < counter1;x++){
+          if(temp.get(i).charAt(x) == ',') counter2++;
+        }
+        String Option = "";
+        for(;temp.get(i).charAt(x) != ',';x++){
+          Option = Option.concat(Character.toString(temp.get(i).charAt(x)));
+        }
+        if(Play.compareTo(Option) == 0){
+          TheNode.add(temp.get(i));
+        }
+        /*for(l = 0;l < Play.length();l++,x++){
+          if(Play.charAt(l) != temp.get(i).charAt(x)) break;
+        }
+        if(Play.charAt(l) != temp.get(i).charAt(x)) continue;*/
+        //TheNode.add(temp.get(i));
+      }
+      if(TheNode.isEmpty())return NewData;
+    }
+    for(i = 0;true;i++){
+      if(TheNode.get(0).charAt(i) == ',') j = i+1;
+      if(i == TheNode.get(0).length()-1){
+        break;
+      }
+    }
+    for(;j != TheNode.get(0).length();j++){
+      NewData = NewData.concat(Character.toString(TheNode.get(0).charAt(j)));
+    }
+    return NewData;
+  }
+
+  public static void NewInfo(ArrayList<String> DataFile, String types){
+    int i,j = 0;
+    String NewData = "";
+    for(i = 0; !(DataFile.get(0).charAt(i) >= '0' && DataFile.get(0).charAt(i) <= '9') ;i++){
+      NewData = NewData.concat(Character.toString(DataFile.get(0).charAt(i)));
+    }
+    NewData = NewData.concat(Integer.toString(DataFile.size()+1));
+    NewData = NewData.concat(",");
+    for(i = 0; types.charAt(i) != ',';i++){}
+    i++;
+    while(true){
+      for(j = i;types.charAt(j) != ',';j++){
+        if(j == types.length()-1) break;
+      }
+      if(j == types.length()-1) break;
       for(;i!=j;i++){
         System.out.print(types.charAt(i));
       }
       System.out.print(':');
       i++;
-      Opcao = stdin.next();
-    }while(true);
+      NewData = NewData.concat(stdin.next() + ",");
+    }
+    NewData = InsertInfo(DataFile,NewData,types);
+    if(NewData.charAt(NewData.length()-1) == ','){
+        System.out.println("Decissão Impossível!");
+        return;
+    }
+    System.out.println("A sua nova Informação:" + NewData);
+    DataFile.add(NewData);
+    return;
   }
 
   public static void main(String[] args) {
