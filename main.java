@@ -162,13 +162,8 @@ public class main{
         if(Play.compareTo(Option) == 0){
           TheNode.add(temp.get(i));
         }
-        /*for(l = 0;l < Play.length();l++,x++){
-          if(Play.charAt(l) != temp.get(i).charAt(x)) break;
-        }
-        if(Play.charAt(l) != temp.get(i).charAt(x)) continue;*/
-        //TheNode.add(temp.get(i));
       }
-      if(TheNode.isEmpty())return NewData;
+      if(TheNode.isEmpty())TheNode = ArList(temp);
     }
     for(i = 0;true;i++){
       if(TheNode.get(0).charAt(i) == ',') j = i+1;
